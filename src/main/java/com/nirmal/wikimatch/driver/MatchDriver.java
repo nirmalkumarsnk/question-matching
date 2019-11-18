@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.nirmal.wikimatch.algo.ControlParameters;
+import com.nirmal.wikimatch.algo.api.IMatchingAlgorithm;
+import com.nirmal.wikimatch.algo.impl.MatchByCommonWords;
+import com.nirmal.wikimatch.algo.params.MatchingControlParams;
 import com.nirmal.wikimatch.common.Delimiters;
 import com.nirmal.wikimatch.exceptions.ValidationException;
+import com.nirmal.wikimatch.scoring.impl.SimpleStringMatchScoring;
+import com.nirmal.wikimatch.scoring.params.ScoringControlParams;
 
 public class MatchDriver {
 
@@ -26,11 +30,19 @@ public class MatchDriver {
 		strArrQues.add("Which are the three species of zebras?");
 		strArrQues.add("Which subgenus do the plains zebra and the mountain zebra belong to?");
 		
-		ControlParameters match;
+		MatchingControlParams matchCtrlParams;
+		ScoringControlParams scoreCtrlParams;
 		try {
-			match = new ControlParameters.MatchingAlgoBuilder().setAnswers(strAns, Delimiters.SEMI_COLON).setQuestions(strArrQues).setPara(para, Delimiters.FULL_STOP).setFillerWordsToFilter(fillerWords).setQuestionWordsToFilter(questionKeyWords).setWordSeparator(Delimiters.SPACE).setScoreNormalizationFactor(1000).build();
+			matchCtrlParams = new MatchingControlParams.Builder().setAnswerDelimiter(Delimiters.SEMI_COLON).setParagraphDelimiter(Delimiters.FULL_STOP).setFillerWordsToFilter(fillerWords).setQuestionWordsToFilter(questionKeyWords).setWordSeparator(Delimiters.SPACE).build();
+			scoreCtrlParams = new ScoringControlParams.Builder().setScoreNormalizationFactor(1000).setWordSeparator(Delimiters.SPACE).setPluralAlphabet("s").build();
 			
-			HashMap<String, String> matchResults = match.runAlgorithm();
+			SimpleStringMatchScoring scoringAlgo = new SimpleStringMatchScoring(scoreCtrlParams);
+			
+			IMatchingAlgorithm matchingAlgo = new MatchByCommonWords(matchCtrlParams, scoringAlgo);
+			matchingAlgo.setInputData(strArrQues, strAns, para);
+			matchingAlgo.preProcessInput();
+			
+			HashMap<String, String> matchResults = matchingAlgo.runAlgorithm();
 			
 			for (String question : matchResults.keySet()) {
 				

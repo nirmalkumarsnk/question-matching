@@ -8,7 +8,7 @@ public enum Delimiters {
 	
 	private String strDelim;
 	
-	public String getDelimiter()
+	public String getValue()
 	{
 		return this.strDelim;
 	}

@@ -14,23 +14,23 @@ public class MatchingControlParams{
 	private final Delimiters ansDelimiter;
 	private final Delimiters wordSeparator;
 	
-	public List<String> getQuestionKeyWords() {
+	public List<String> questionKeyWords() {
 		return questionKeyWords;
 	}
 
-	public List<String> getFillerWords() {
+	public List<String> fillerWords() {
 		return fillerWords;
 	}
 
-	public Delimiters getParagraphDelimiter() {
+	public Delimiters paragraphDelimiter() {
 		return paraDelimiter;
 	}
 
-	public Delimiters getAnswerDelimiter() {
+	public Delimiters answerDelimiter() {
 		return ansDelimiter;
 	}
 
-	public Delimiters getWordSeparator() {
+	public Delimiters wordSeparator() {
 		return wordSeparator;
 	}
 	

@@ -13,8 +13,24 @@ public class SimpleStringMatchScoring implements IScoringAlgorithm {
 		this.ctrlParams = params;
 	}
 	
+	/******************************************************************
+	 * Calculates the match score as a ratio of the total number of
+	 * words in the question string to the actual number of words that
+	 * matched to the answer string.
+	 * This is a very simple algorithm and not perfect. Some known
+	 * scenarios where it would not give perfect answers are:
+	 *	- If the answer contains words that are super-strings of certain
+	 *		words in the question
+	 *	- If there are apostropohe's
+	 * ***************************************************************/
 	public int getScore(String question, String answer) {
-		StringTokenizer tokenizer = new StringTokenizer(question, ctrlParams.getWordSeparator().getValue());
+		
+		if(question.length() == 0 || answer.length() == 0)
+		{
+			return 0;
+		}
+		
+		StringTokenizer tokenizer = new StringTokenizer(question, ctrlParams.wordSeparator().getValue());
 		int totalWordCount = 0;
 
 		int matchWordCount = 0;
@@ -23,11 +39,11 @@ public class SimpleStringMatchScoring implements IScoringAlgorithm {
 			totalWordCount++;
 			String word = tokenizer.nextToken().trim();
 
-			if (answer.contains(word) || (word.endsWith(ctrlParams.getPluralAlphabet())
+			if (answer.contains(word) || (word.endsWith(ctrlParams.pluralAlphabet())
 					&& answer.contains(word.substring(0, word.length() - 1)))) {
 				matchWordCount++;
 			}
 		}
-		return (matchWordCount * ctrlParams.getNormalizationFactor() / totalWordCount);
+		return (matchWordCount * ctrlParams.normalizationFactor() / totalWordCount);
 	}
 }

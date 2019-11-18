@@ -8,15 +8,15 @@ public class ScoringControlParams {
 	private final String pluralAlphabet;
 	private final Delimiters wordSeparator;
 
-	public int getNormalizationFactor() {
+	public int normalizationFactor() {
 		return iNormalizationFactor;
 	}
 
-	public String getPluralAlphabet() {
+	public String pluralAlphabet() {
 		return pluralAlphabet;
 	}
 
-	public Delimiters getWordSeparator() {
+	public Delimiters wordSeparator() {
 		return wordSeparator;
 	}
 

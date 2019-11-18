@@ -8,5 +8,7 @@ public interface IMatchingAlgorithm {
 	
 	public void preProcessInput();
 	
-	public HashMap<String,String> runAlgorithm();
+	public void runAlgorithm();
+	
+	public HashMap<String,String> getResult();
 }
